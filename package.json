@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Node js backend development with Typescript",
   "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+  },
   "author": "Trishten Ac",
   "license": "MIT",
   "dependencies": {
