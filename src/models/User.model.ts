@@ -8,10 +8,13 @@ import config from "config";
  * Create userSchema type deffinition
  */
 
-export interface UserDocument extends Document {
+export interface UserInput {
     email: string;
     password: string;
     name: string;
+}
+
+export interface UserDocument extends UserInput, Document{
     createdAt: Date;
     updatedAt: Date;
     comparePassword(userPassword: string): Promise<boolean>
