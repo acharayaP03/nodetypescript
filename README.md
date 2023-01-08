@@ -18,3 +18,7 @@ to complete this project.
 * Pino-pretty
 * Docker
  
+
+## Collection
+
+Feel free to use collection.json and import it to your postman in order to test out the api
