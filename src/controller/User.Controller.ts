@@ -13,10 +13,13 @@ import {CreateUserInput} from "../schema/User.Schema";
 
 export async function createUserHandler( req: Request<{}, {}, CreateUserInput["body"]>, res: Response){
     try{
+        /**
+         * call the user.service createUser
+         */
         const user = await createUser(req.body)
-        return user;
+        return res.send(user);
     }catch (e: any){
         logger.error(e);
-        return res.sendStatus(409).send(e.message);
+        return res.status(409).send(e.message);
     }
 }

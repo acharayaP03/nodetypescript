@@ -4,6 +4,7 @@ import User, { UserDocument} from "../models/User.model";
 /**
  *
  * @param input doesnot need createdAt, updatedAt and comparePassword from UserDocument
+ * Calls the User model so that data can be saved to db.
  */
 export async function createUser(input: DocumentDefinition<Omit<UserDocument, 'createdAt' | 'updatedAt' | 'comparePassword'>>){
     try{
