@@ -5,6 +5,7 @@ import { Request, Response} from "express";
 import logger from "../utils/logger";
 import {createUser} from "../service/User.Service";
 import {CreateUserInput} from "../schema/User.Schema";
+import { omit } from 'lodash';
 
 /**
  *
@@ -17,7 +18,7 @@ export async function createUserHandler( req: Request<{}, {}, CreateUserInput["b
          * call the user.service createUser
          */
         const user = await createUser(req.body)
-        return res.send(user);
+        return res.send(omit(user.toJSON(),"password"));
     }catch (e: any){
         logger.error(e);
         return res.status(409).send(e.message);
