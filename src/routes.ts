@@ -2,6 +2,8 @@ import { Express, Request, Response} from "express";
 import {createUserHandler} from "./controller/User.Controller";
 import validate from "./middleware/validateResource";
 import { createUserSchema} from "./schema/User.Schema";
+import {createUserSessionHandler} from "./controller/Session.controller";
+import {createSessionSchema} from "./schema/Session.Schema";
 
 
 function routes ( app: Express) {
@@ -16,6 +18,11 @@ function routes ( app: Express) {
      * 3.) User.Service then uses User model when user data wil be processed, and saved to mogodb.
      */
     app.post("/api/users", validate(createUserSchema) ,createUserHandler)
+
+    /**
+     * Create session route
+     */
+    app.post("/api/sessions", validate(createSessionSchema), createUserSessionHandler)
 }
 
 
