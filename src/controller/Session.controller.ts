@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import {validatePassword} from "../service/User.Service";
-import {createSession} from "../service/Session.service";
+import {createSession, findSessions} from "../service/Session.service";
 import {signJwt} from "../utils/jwtUtils";
 import config from "config";
+import logger from "../utils/logger";
 
 
 /**
@@ -27,6 +28,8 @@ export async function createUserSessionHandler(req: Request, res: Response){
 
     const session = await createSession(user._id, req.get("user-agent") || "");
 
+    console.log('Created Session: ', session)
+
     const accessToken = signJwt({
             ...user,
             session: session._id
@@ -43,4 +46,21 @@ export async function createUserSessionHandler(req: Request, res: Response){
 
     return res.send({ accessToken, refreshToken})
 
+}
+
+
+/**
+ * get User sessions handler
+ */
+
+export async function getUserSessionsHandler(req: Request, res: Response){
+    try{
+        const user = res.locals.user._id;
+        const sessions = await findSessions({ user, valid: true})
+
+        console.log('getUserSessionsHandler: ', sessions)
+        return res.send(sessions)
+    }catch (e: any){
+        logger.error(e)
+    }
 }
