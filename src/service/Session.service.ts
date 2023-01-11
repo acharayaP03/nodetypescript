@@ -1,5 +1,8 @@
-import SessionModel from "../models/Session.model";
+import SessionModel, { SessionDocument } from "../models/Session.model";
+
+
 import logger from "../utils/logger";
+import {FilterQuery} from "mongoose";
 
 
 /**
@@ -15,4 +18,13 @@ export async function createSession( userId: string, userAgent: string){
     }catch(e: any){
         throw new Error(e)
     }
+}
+
+
+/**
+ * get session service
+ */
+
+export async function findSessions( query: FilterQuery<SessionDocument>){
+    return SessionModel.find(query).lean();
 }
