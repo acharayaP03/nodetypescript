@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
-import { Document, Model, model, Types, Schema, Query } from "mongoose";
-import bcrypt from "bcrypt";
-import config from "config";
+import { Document,Schema } from "mongoose";
 import {UserDocument} from "./User.model";
-import {string} from "zod";
-
 
 /**
  * Create SessionSchema type deffinition
