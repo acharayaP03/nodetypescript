@@ -2,7 +2,7 @@ import { Express, Request, Response} from "express";
 import {createUserHandler} from "./controller/User.Controller";
 import validate from "./middleware/validateResource";
 import { createUserSchema} from "./schema/User.Schema";
-import {createUserSessionHandler, getUserSessionsHandler} from "./controller/Session.controller";
+import {createUserSessionHandler, deleteSessionHandler, getUserSessionsHandler} from "./controller/Session.controller";
 import {createSessionSchema} from "./schema/Session.Schema";
 import {requiredUser} from "./middleware/deserializeUser";
 
@@ -29,6 +29,12 @@ function routes ( app: Express) {
      * get user sessions
      */
     app.get("/api/sessions", requiredUser , getUserSessionsHandler)
+
+    /**
+     * Delete user session
+     */
+
+    app.delete("/api/sessions", requiredUser, deleteSessionHandler)
 }
 
 

@@ -2,7 +2,9 @@ import SessionModel, { SessionDocument } from "../models/Session.model";
 
 
 import logger from "../utils/logger";
-import {FilterQuery} from "mongoose";
+import {FilterQuery, UpdateQuery} from "mongoose";
+import Session from "../models/Session.model";
+import {update} from "lodash";
 
 
 /**
@@ -27,4 +29,13 @@ export async function createSession( userId: string, userAgent: string){
 
 export async function findSessions( query: FilterQuery<SessionDocument>){
     return SessionModel.find(query).lean();
+}
+
+
+/**
+ * update sessions:
+ */
+
+export async function updateSession(query: FilterQuery<SessionDocument>, update: UpdateQuery<SessionDocument>){
+    return Session.updateOne(query, update)
 }

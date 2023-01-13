@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import {NextFunction, Request, Response} from "express";
 import {validatePassword} from "../service/User.Service";
-import {createSession, findSessions} from "../service/Session.service";
+import {createSession, findSessions, updateSession} from "../service/Session.service";
 import {signJwt} from "../utils/jwtUtils";
 import config from "config";
 import logger from "../utils/logger";
@@ -59,6 +59,24 @@ export async function getUserSessionsHandler(req: Request, res: Response){
         console.log('getUserSessionsHandler: ', sessions)
         return res.send(sessions)
     }catch (e: any){
+        logger.error(e)
+    }
+}
+
+/**
+ * Delete session or in other words, logout user
+ */
+
+export async function deleteSessionHandler(req: Request, res: Response) {
+    try{
+        const sessionId = res.locals.user.session;
+
+        await updateSession({ _id: sessionId}, { valid: false })
+        return res.send({
+            accessToken: null,
+            refreshToken: null
+        });
+    }catch(e: any){
         logger.error(e)
     }
 }
