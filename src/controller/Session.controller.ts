@@ -56,7 +56,6 @@ export async function getUserSessionsHandler(req: Request, res: Response){
         const user = res.locals.user._id;
         const sessions = await findSessions({ user, valid: true})
 
-        console.log('getUserSessionsHandler: ', sessions)
         return res.send(sessions)
     }catch (e: any){
         logger.error(e)

@@ -4,6 +4,7 @@ import {get} from "lodash";
 import {signJwt, verifyJwt} from "../utils/jwtUtils";
 import {findUser} from "./User.Service";
 import config from "config";
+import {string} from "zod";
 
 
 /**
@@ -39,14 +40,16 @@ export async function updateSession(query: FilterQuery<SessionDocument>, update:
     return Session.updateOne(query, update)
 }
 
+
+
 /**
  * refreshToken if token expired, or re issue them
  */
 
-export async function reIssueAccessToken( { refreshToken }: any){
+export async function reIssueAccessToken( { refreshToken }:{ refreshToken: string}){
     const { decoded } = verifyJwt(refreshToken);
 
-    if(!decoded || get(decoded, 'session')) return false
+    if(!decoded || !get(decoded, 'session')) return false
 
     const session = await Session.findById(get(decoded, "session"))
 
