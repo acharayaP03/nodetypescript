@@ -5,6 +5,14 @@ import { createUserSchema} from "./schema/User.Schema";
 import {createUserSessionHandler, deleteSessionHandler, getUserSessionsHandler} from "./controller/Session.controller";
 import {createSessionSchema} from "./schema/Session.Schema";
 import {requiredUser} from "./middleware/deserializeUser";
+import validateResource from "./middleware/validateResource";
+import {createProductSchema, deleteProductSchema, getProductSchema, updateProductSchema} from "./schema/Product.schema";
+import {
+    createProductHandler,
+    deleteProductHandler,
+    getProductHandler,
+    updateProductHandler
+} from "./controller/Product.controller";
 
 
 function routes ( app: Express) {
@@ -35,6 +43,30 @@ function routes ( app: Express) {
      */
 
     app.delete("/api/sessions", requiredUser, deleteSessionHandler)
+
+    /**
+     * Create Product
+     */
+
+    app.post("/api/products", [requiredUser, validateResource(createProductSchema)], createProductHandler)
+
+    /**
+     * Update Product
+     */
+
+    app.put("/api/products/:productId", [requiredUser, validateResource(updateProductSchema)], updateProductHandler)
+
+    /**
+     * Update Product
+     */
+
+    app.get("/api/products/:productId", validateResource(getProductSchema), getProductHandler)
+
+    /**
+     * Update Product
+     */
+
+    app.delete("/api/products/:productId", validateResource(deleteProductSchema), deleteProductHandler)
 }
 
 
