@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
-import { customAlphabet } from 'nanoid'
-import { Document,Schema } from "mongoose";
+import { Document,Schema, Types } from "mongoose";
 import {UserDocument} from "./User.model";
 
-
-const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10)
 /**
  * Create Product type deffinition
  */
 
 export interface ProductDocument extends Document{
-    productId: string;
+    productId: mongoose.Schema.Types.ObjectId;
     user: UserDocument["_id"];
     title: string;
     description: string;
@@ -24,10 +21,8 @@ export interface ProductDocument extends Document{
 const productSchema = new Schema<ProductDocument>(
     {
         productId: {
-            type: String,
-            required: true,
-            unique: true,
-            default: () => `product_${nanoid()}`
+            type: mongoose.Schema.Types.ObjectId,
+            auto: true,
         },
         title: { type: String, required: true},
         description: { type: String, required: true},
